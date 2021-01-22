@@ -2,6 +2,8 @@ import React,{useEffect, useState} from 'react';
 import axios from 'axios';
 import URL from '../Utilities/Constants' 
 import {getUsers} from '../Services/dataService';
+import {connect} from 'react-redux';
+import {getUserData} from '../redux/actions/actions';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -40,7 +42,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Users =() => {
+const Users =(props) => {
   const classes = useStyles();
 
   const [user,setUser]= useState([]);
@@ -49,11 +51,19 @@ const Users =() => {
 
    
   useEffect(()=>{
-     getUsers().then(res=> setUser(res.data))
+     getUsers().then(res=>{
+      setUser(res.data);
+      props.users(res.data)
+     } 
+     
+      )
      .catch(err=>console.log(err));
 
   },[])
 
+console.log('get data from store =>',props.usersData);
+
+const newData = props.usersData;
 
   return (
       <div className ={classes.TableMargin}>
@@ -73,7 +83,7 @@ const Users =() => {
         </TableHead>
 
         <TableBody>
-          {user.map((value) => (
+          {newData && newData.map((value) => (
             <StyledTableRow key={value.name}>
               <StyledTableCell component="th" scope="row">
                 {value.name}
@@ -89,5 +99,18 @@ const Users =() => {
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    usersData :state.users.usersValue 
+  };
+};
 
-export default Users;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    users : (data) => dispatch(getUserData(data))
+  };
+};
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps )(Users);

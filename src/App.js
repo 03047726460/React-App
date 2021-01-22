@@ -11,6 +11,9 @@ import { Button } from '@material-ui/core';
 import {Route, Switch,Link} from "react-router-dom";
 import MenuAppBar from './components/Header';
 
+import {Provider} from 'react-redux';
+import { store } from './Store';
+
 
 function App() {
 
@@ -43,6 +46,7 @@ function App() {
   // }, [localStorage.getItem('isAuth')])
 
   return (
+    <Provider store ={ store}>
     <div className="App">
 
 <Switch>
@@ -65,6 +69,7 @@ function App() {
  
      
     </div>
+    </Provider>
   );
 }
 

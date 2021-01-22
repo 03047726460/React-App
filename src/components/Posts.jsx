@@ -29,8 +29,6 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 
-
-
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -46,7 +44,6 @@ const Posts =() => {
   const [post,setPost]= useState([]);
    
         
-
    
   useEffect(()=>{
      getPosts().then(res=> setPost(res.data))
@@ -72,7 +69,7 @@ const Posts =() => {
         </TableHead>
 
         <TableBody>
-          {post.map((value) => (
+          {post && post.map((value) => (
             <StyledTableRow key={value.id}>
               <StyledTableCell component="th" scope="row">
                 {value.title}
