@@ -3,6 +3,8 @@ import axios from 'axios';
 import URL from '../Utilities/Constants' 
 import {getPosts} from '../Services/dataService';
 
+import {connect} from 'react-redux';
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -38,7 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Posts =() => {
+const Posts =(props) => {
   const classes = useStyles();
 
   const [post,setPost]= useState([]);
@@ -51,7 +53,8 @@ const Posts =() => {
 
   },[])
 
-
+  console.log('get data from store =>',props);
+  const newData = props.postsData;
   return (
       <div className ={classes.TableMargin}>
 
@@ -69,7 +72,7 @@ const Posts =() => {
         </TableHead>
 
         <TableBody>
-          {post && post.map((value) => (
+        {newData && newData.map((value)=> (
             <StyledTableRow key={value.id}>
               <StyledTableCell component="th" scope="row">
                 {value.title}
@@ -85,4 +88,12 @@ const Posts =() => {
   );
 }
 
-export default Posts;
+const mapStateToProps = (state) => {
+  console.log('State', state);
+  return {
+    postsData :state.StateData.postsValue
+  };
+};
+
+
+export default connect(mapStateToProps, null )(Posts);

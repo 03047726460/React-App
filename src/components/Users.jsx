@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import axios from 'axios';
 import URL from '../Utilities/Constants' 
+
 import {getUsers} from '../Services/dataService';
 import {connect} from 'react-redux';
 import {getUserData} from '../redux/actions/actions';
@@ -101,7 +102,7 @@ const newData = props.usersData;
 }
 const mapStateToProps = (state) => {
   return {
-    usersData :state.users.usersValue 
+    usersData :state.StateData.usersValue 
   };
 };
 

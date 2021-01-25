@@ -3,5 +3,5 @@ import rootReducer from './reducers';
 
 export default combineReducers({
 
-    users : rootReducer
+    StateData : rootReducer
 })

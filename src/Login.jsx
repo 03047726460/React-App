@@ -1,4 +1,8 @@
 import React,{useState} from 'react';
+import {getPosts} from './Services/dataService';
+import {getPostData} from './redux/actions/actions';
+
+import {connect} from 'react-redux';
 
 import {ADMIN_USERNAME,ADMIN_PASSWORD} from './Utilities/Constants';
 
@@ -35,8 +39,12 @@ const Login=(props) =>{
 
         if(userName == ADMIN_USERNAME && password == ADMIN_PASSWORD){
             localStorage.setItem('isAuth','true');
+           
+            getPosts().then(res=> props.posts(res.data))
+            .catch(err=>console.log(err));
             props.submitted('true');
         }
+
        
     }
 
@@ -77,4 +85,11 @@ const Login=(props) =>{
     );
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+    return {
+      posts : (data) => dispatch(getPostData(data))
+    };
+  };
+  
+
+  export default connect(null, mapDispatchToProps )(Login);
